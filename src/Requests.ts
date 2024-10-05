@@ -10,7 +10,7 @@ const requests: IRequest = {
   requestUpcoming: `https://api.themoviedb.org/3/movie/upcoming?api_key=${key}&language=ru-RU&page=1`,
   
   requestMovieById: (movieId: string) => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}&language=ru-RU`,
-	requestCreditsById: (movieId: string) => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}&language=ru-RU`,
+	requestCreditsById: (movieId: string) => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${key}&language=ru-RU`, 
   
   requestSearchMovies: (query: string) => 
     `https://api.themoviedb.org/3/search/movie?api_key=${key}&language=ru-RU&query=${encodeURIComponent(query)}&include_adult=true`
