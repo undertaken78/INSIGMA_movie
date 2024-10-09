@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CiSearch } from "react-icons/ci"
 import { Link, useNavigate } from 'react-router-dom'
 import requests from '../../Requests'; // Импортируем файл с запросами
-import { UserAuth } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import styles from './styles.module.scss'
 
 const Navbar = () => {
-  const { user, logOut } = UserAuth()
+  const { user, logOut } = useAuth()
   const navigate = useNavigate()
 
   const [scroll, setScroll] = useState(false)
@@ -71,10 +71,10 @@ const Navbar = () => {
         <h1 className={styles.title}>INSIGMA</h1>
       </Link>
       
-      <div className="relative w-[20%]">
+      <div className="absolute left-[39%] w-[20%]">
         <CiSearch className='absolute text-gray-400 left-[2%] top-[32%] ' />
         <input
-          placeholder='Search'
+          placeholder='Поиск'
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}
           className='p-2 bg-gray-700/50 text-white placeholder:text-gray-400 rounded pl-[10%] w-full'
@@ -101,15 +101,15 @@ const Navbar = () => {
           <Link to='/account'>
             <button className={styles.signIn}>{user?.email}</button>
           </Link>
-          <button onClick={handleLogout} className={styles.signUp}>Logout</button>
+          <button onClick={handleLogout} className={styles.signUp}>Выйти</button>
         </div>
       ) : (
         <div className=''>
           <Link to='/login'>
-            <button className={styles.signIn}>Sign in</button>
+            <button className={styles.signIn}>Войти</button>
           </Link>
           <Link to='/signup'>
-            <button className={styles.signUp}>Sign Up</button>
+            <button className={styles.signUp}>Регистрация</button>
           </Link>
         </div>
       )}

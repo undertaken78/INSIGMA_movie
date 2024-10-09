@@ -1,14 +1,14 @@
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
-import { UserAuth } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { db } from '../../firebase.ts'
 
 
 const SavedShows = () => {
   const [movies, setMovies] = useState([]);
-  const { user } = UserAuth();
+  const { user } = useAuth();
 
   const slideLeft = () => {
     var slider = document.getElementById('slider');

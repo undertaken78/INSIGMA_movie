@@ -1,3 +1,7 @@
+import {
+	User as FirebaseUser,
+	UserCredential,
+} from 'firebase/auth'
 import { ReactNode } from 'react'
 
 export interface IFirebaseConfig { 
@@ -107,6 +111,17 @@ export interface IActors {
 
 	}[],
 
+}
+
+export interface IAuthContext {
+	user: FirebaseUser | null,
+	signUp: (email: string, password: string) => void
+	logIn: (email: string, password: string) => Promise<UserCredential>
+	logOut: () => Promise<void>
+}
+
+export interface IAuthContextProvider {
+	children: ReactNode
 }
 
 

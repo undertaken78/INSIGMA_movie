@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import requests from '../../Requests'
 import { truncateOverview } from '../../utils/utils.ts'
@@ -29,10 +29,10 @@ const Main = () => {
 						<button 
 							className='border border-gray-300 bg-gray-300 text-black px-5 py-2 rounded'
 							onClick={() => {navigate(`/movie/${randomPopularMovie.id}`)}}
-							>Play</button>
-						<button className='border border-gray-300 text-white px-5 py-2 ml-4 rounded'>Watch Later</button>
+							>Смотреть</button>
+						<button className='border border-gray-300 text-white px-5 py-2 ml-4 rounded'>Посмотреть позже</button>
 					</div>
-					<p className='text-gray-500 text-sm'>Released: {randomPopularMovie?.release_date}</p>
+					<p className='text-gray-500 text-sm'>Дата выхода: {randomPopularMovie?.release_date}</p>
 					<p className='w-full md:max-w-[70%] lg:max-w-[50%] xl:max-w-[35%] text-gray-200'>{truncateOverview(randomPopularMovie?.overview, 150)}</p>
 				</div>
 			</div>

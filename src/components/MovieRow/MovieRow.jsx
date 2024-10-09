@@ -1,16 +1,16 @@
 import { arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import { UserAuth } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { db } from '../../firebase.ts'
 
 
 const MovieRow = ({item}) => {
+	const {user} = useAuth()
 	const [isLike, setIsLike] = useState(false)
 	const [isSaved, setSaved] = useState(false)
 	const [likedMovies, setLikedMovies] = useState([])
-	const {user} = UserAuth()
 	const navigate = useNavigate()
 
 	const movieId = doc(db, 'users', `${user?.email}`)
