@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 import { CiSearch } from "react-icons/ci"
 import { Link, useNavigate } from 'react-router-dom'
-import requests from '../../Requests'; // Импортируем файл с запросами
+import requests from '../../Requests'
 import { useAuth } from '../../context/AuthContext'
+import { IMovie } from '../../interfaces/interfaces'
 import styles from './styles.module.scss'
 
 const Navbar = () => {
   const { user, logOut } = useAuth()
   const navigate = useNavigate()
 
-  const [scroll, setScroll] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
-  const [searchResults, setSearchResults] = useState([])
-  const [isSearching, setIsSearching] = useState(false)
+  const [scroll, setScroll] = useState<boolean>(false)
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [searchResults, setSearchResults] = useState<IMovie[]>()
+  const [isSearching, setIsSearching] = useState<boolean>(false)
 
   const handleLogout = async () => {
     try {
@@ -51,7 +52,7 @@ const Navbar = () => {
       try {
         const response = await fetch(requests.requestSearchMovies(searchValue))
         const data = await response.json()
-				const filteredResults = data.results.filter(movie => 
+				const filteredResults = data.results.filter((movie: IMovie) => 
 					movie.poster_path && movie.overview && movie.vote_average > 5
 				)
         setSearchResults(filteredResults)
@@ -80,9 +81,9 @@ const Navbar = () => {
           className='p-2 bg-gray-700/50 text-white placeholder:text-gray-400 rounded pl-[10%] w-full'
         />
 
-        {searchResults.length > 0 && (
+        {searchResults && searchResults?.length > 0 && (
           <div className="absolute top-full left-0 w-full bg-white text-black max-h-60 overflow-y-auto shadow-lg">
-            {searchResults.map((movie) => (
+            {searchResults?.map((movie) => (
               <Link 
                 to={`/movie/${movie.id}`} 
                 key={movie.id}

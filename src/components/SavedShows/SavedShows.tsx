@@ -3,20 +3,21 @@ import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import { useAuth } from '../../context/AuthContext'
-import { db } from '../../firebase.ts'
+import { db } from '../../firebase'
+import { IMovieFirebase } from '../../interfaces/interfaces'
 
 
 const SavedShows = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<IMovieFirebase[]>();
   const { user } = useAuth();
 
   const slideLeft = () => {
-    var slider = document.getElementById('slider');
-    slider.scrollLeft = slider.scrollLeft - 500;
+    var slider: HTMLElement | null = document.getElementById('slider');
+    slider?.scrollLeft !== undefined && (slider.scrollLeft -= 500);
   };
   const slideRight = () => {
     var slider = document.getElementById('slider');
-    slider.scrollLeft = slider.scrollLeft + 500;
+    slider?.scrollLeft !== undefined && (slider.scrollLeft += 500);
   };
 
   useEffect(() => {
@@ -26,9 +27,9 @@ const SavedShows = () => {
   }, [user?.email]);
 
   const movieRef = doc(db, 'users', `${user?.email}`)
-  const deleteShow = async (passedID) => {
+  const deleteShow = async (passedID: number) => {
       try {
-        const result = movies.filter((item) => item.id !== passedID)
+        const result = movies?.filter((item) => item.id !== passedID)
         await updateDoc(movieRef, {
             savedShows: result
         })
@@ -50,7 +51,7 @@ const SavedShows = () => {
           id={'slider'}
           className='w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative'
         >
-          {movies.map((item) => (
+          {movies?.map((item) => (
             <div
               key={item.id}
               className='w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2'

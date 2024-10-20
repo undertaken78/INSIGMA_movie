@@ -29,6 +29,13 @@ export interface IRequest {
 	requestSearchMovies: (query: string) => string,
 }
 
+export interface IMovieFirebase {
+	id: number,
+	img: string,
+	title: string,
+
+}
+
 export interface IMovie {
 	adult?: boolean,
 	backdrop_path: string,
@@ -122,6 +129,17 @@ export interface IAuthContext {
 
 export interface IAuthContextProvider {
 	children: ReactNode
+}
+
+export interface IRow {
+	id: string,
+	fetchURL: string,
+	title: string,
+
+}
+
+export interface IMovieRow {
+	item: IMovie,
 }
 
 

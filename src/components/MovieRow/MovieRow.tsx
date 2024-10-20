@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { db } from '../../firebase.ts'
+import { db } from '../../firebase'
+import { IMovie, IMovieRow } from '../../interfaces/interfaces'
 
 
-const MovieRow = ({item}) => {
+const MovieRow = ({item}: IMovieRow) => {
 	const {user} = useAuth()
-	const [isLike, setIsLike] = useState(false)
-	const [isSaved, setSaved] = useState(false)
-	const [likedMovies, setLikedMovies] = useState([])
+	const [isLike, setIsLike] = useState<boolean>(false)
+	const [isSaved, setSaved] = useState<boolean>(false)
+	const [likedMovies, setLikedMovies] = useState<IMovie[]>()
 	const navigate = useNavigate()
 
 	const movieId = doc(db, 'users', `${user?.email}`)
@@ -46,7 +47,7 @@ const MovieRow = ({item}) => {
 
 	useEffect(() => {
     const isLikedInAccount = () => {
-			if (likedMovies.some((likedMovie) => likedMovie.id === item.id)) {
+			if (likedMovies?.some((likedMovie) => likedMovie.id === item.id)) {
 				setIsLike(true)
 			} else {
 				setIsLike(false)
