@@ -2,35 +2,37 @@ import { arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
 import { db } from '../../firebase'
+import { useTypedSelector } from '../../hooks/reduxHooks'
 import { IMovie, IMovieRow } from '../../interfaces/interfaces'
 
 
 const MovieRow = ({item}: IMovieRow) => {
-	const {user} = useAuth()
+	const user = useTypedSelector((state) => state.auth.user)
 	const [isLike, setIsLike] = useState<boolean>(false)
-	const [isSaved, setSaved] = useState<boolean>(false)
 	const [likedMovies, setLikedMovies] = useState<IMovie[]>()
 	const navigate = useNavigate()
 
 	const movieId = doc(db, 'users', `${user?.email}`)
 
-	const saveShow = async () => {
-		if(user?.email) {
-			setIsLike(!isLike)
-			setSaved(true)
-			await updateDoc(movieId, {
-				savedShows: arrayUnion({
-					id: item.id,
-					title: item.title,
-					img: item.backdrop_path
-				})
-			})
-		} else {
-			alert('Please log in to save a movie')
-		}
-	}
+const saveShow = async () => {
+  if (user?.email) {
+    try {
+      setIsLike(!isLike);
+      await updateDoc(movieId, {
+        savedShows: arrayUnion({
+          id: item.id,
+          title: item.title,
+          img: item.backdrop_path
+        })
+      });
+    } catch (error) {
+      alert(`Error saving movie: ${error}`);
+    }
+  } else {
+    alert('Please log in to save a movie');
+  }
+};
 
 	useEffect(() => {
     if (user?.email) {

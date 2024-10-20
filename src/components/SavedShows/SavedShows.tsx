@@ -2,14 +2,14 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
-import { useAuth } from '../../context/AuthContext'
 import { db } from '../../firebase'
+import { useTypedSelector } from '../../hooks/reduxHooks'
 import { IMovieFirebase } from '../../interfaces/interfaces'
 
 
 const SavedShows = () => {
   const [movies, setMovies] = useState<IMovieFirebase[]>();
-  const { user } = useAuth();
+  const user = useTypedSelector((state) => state.auth.user)
 
   const slideLeft = () => {
     var slider: HTMLElement | null = document.getElementById('slider');

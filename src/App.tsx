@@ -1,18 +1,25 @@
+import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
-import { AuthContextProvider } from './context/AuthContext'
+import { useAppDispatch } from './hooks/reduxHooks'
 import ProtectedRoute from './navigation/ProtectedRoute'
 import Account from './pages/Account'
 import Home from './pages/Home'
 import LogIn from './pages/LogIn'
 import Movie from './pages/Movie'
 import SignUp from './pages/SignUp'
+import { listenForAuthChanges } from './slices/auth/authSlice'
 
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(listenForAuthChanges())
+  }, [dispatch]);
+
 	return (
 		<div>
-			<AuthContextProvider>
 				<Navbar />
 				<Routes>
 					<Route path='/' element={<Home />} />
@@ -27,7 +34,6 @@ const App = () => {
 							</ProtectedRoute>} 
 						/>
 				</Routes>
-			</AuthContextProvider>
 		</div>
 	)
 }

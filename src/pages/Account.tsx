@@ -1,9 +1,9 @@
 import SavedShows from '../components/SavedShows/SavedShows'
 import { bgImage } from '../constants/constants'
-import { useAuth } from '../context/AuthContext'
+import { useTypedSelector } from '../hooks/reduxHooks'
 
 const Account = () => {
-	const {user} = useAuth()
+	const user = useTypedSelector((state) => state.auth.user)
 
 	return (
 		<>

@@ -8,7 +8,7 @@ import MovieRow from '../MovieRow/MovieRow'
 const Row = ({title, fetchURL, id}: IRow) => {
 	const [movies, setMovies] = useState<IMovie[]>()
 
-	const sliderId = 'slider' + id
+	const sliderId: string = 'slider' + id
 
 	useEffect(() => {
 		axios.get(fetchURL).then((response) => {

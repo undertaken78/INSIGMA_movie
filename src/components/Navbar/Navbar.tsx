@@ -2,22 +2,23 @@ import { useEffect, useState } from 'react'
 import { CiSearch } from "react-icons/ci"
 import { Link, useNavigate } from 'react-router-dom'
 import requests from '../../Requests'
-import { useAuth } from '../../context/AuthContext'
+import { useAppDispatch, useTypedSelector } from '../../hooks/reduxHooks'
 import { IMovie } from '../../interfaces/interfaces'
+import { logOut } from '../../slices/auth/authSlice'
 import styles from './styles.module.scss'
 
 const Navbar = () => {
-  const { user, logOut } = useAuth()
+  const dispatch = useAppDispatch()
+  const user = useTypedSelector((state) => state.auth.user)
   const navigate = useNavigate()
 
   const [scroll, setScroll] = useState<boolean>(false)
   const [searchValue, setSearchValue] = useState<string>('')
   const [searchResults, setSearchResults] = useState<IMovie[]>()
-  const [isSearching, setIsSearching] = useState<boolean>(false)
 
   const handleLogout = async () => {
     try {
-      await logOut();
+      await dispatch(logOut());
       navigate('/')
     } catch (error) {
       console.log(error)
@@ -47,8 +48,6 @@ const Navbar = () => {
     }
 
     const searchMovies = async () => {
-      setIsSearching(true)
-
       try {
         const response = await fetch(requests.requestSearchMovies(searchValue))
         const data = await response.json()

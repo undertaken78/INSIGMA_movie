@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { bgImage } from '../constants/constants'
-import { useAuth } from '../context/AuthContext'
+import { useAppDispatch } from '../hooks/reduxHooks'
+import { signUp } from '../slices/auth/authSlice'
 
 const SignUp = () => {
 	const [email, setEmail] = useState<string>('')
 	const [password, setPassword] = useState<string>('')
-	const {user, signUp } = useAuth()
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		try {
-			await signUp(email, password)
+			await dispatch(signUp({email, password})).unwrap()
 			navigate('/')
 		} catch (error) {
 			console.log(error)

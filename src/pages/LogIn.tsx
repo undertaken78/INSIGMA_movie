@@ -2,8 +2,9 @@ import { browserLocalPersistence, browserSessionPersistence, setPersistence } fr
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { bgImage } from '../constants/constants'
-import { useAuth } from '../context/AuthContext'
 import { auth } from '../firebase'
+import { useAppDispatch } from '../hooks/reduxHooks'
+import { logIn } from '../slices/auth/authSlice'
 
 const LogIn = () => {
 	const [email, setEmail] = useState<string>('')
@@ -11,7 +12,7 @@ const LogIn = () => {
 	const [error, setError] = useState<string | null>('')
 	const [rememberMe, setRememberMe] = useState<boolean>(false)
 
-	const {user, logIn } = useAuth()
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +20,7 @@ const LogIn = () => {
 		setError('')
 		try {
 			await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence)
-			await logIn(email, password)
+			await dispatch(logIn({email, password})).unwrap()
 			navigate('/')
 		} catch (err) {
 			console.log(err)
