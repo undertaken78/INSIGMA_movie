@@ -1,6 +1,6 @@
 import { IRequest } from './interfaces/interfaces'
 
-const key = '3e96500efe037c0564a2bbd7ef7d9462';
+const key = process.env.REACT_APP_API_KEY;
 
 const requests: IRequest = {
   requestPopular: `https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=ru-RU&page=1`,
